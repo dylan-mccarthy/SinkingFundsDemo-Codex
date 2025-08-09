@@ -1,5 +1,6 @@
 # Sinking Funds Manager
 
+
 A demo SvelteKit application that implements the full product specification for managing sinking funds. It uses Skeleton UI for styling and Prisma ORM with a SQLite database.
 
 ## Setup
@@ -34,3 +35,4 @@ npm run dev
 - Track fund "levels" based on saved balance and celebrate when targets are reached
 
 Milestone progress is tracked in [status.md](status.md).
+

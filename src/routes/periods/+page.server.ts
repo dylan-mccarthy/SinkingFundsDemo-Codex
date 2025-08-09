@@ -20,7 +20,9 @@ export const load: PageServerLoad = async () => {
  */
 export const actions: Actions = {
   start: async () => {
+
     await startPeriod(DEMO_USER_ID);
+
     return { success: true };
   },
   close: async ({ request }) => {

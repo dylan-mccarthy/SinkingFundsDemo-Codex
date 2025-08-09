@@ -3,6 +3,7 @@ import { json, error } from '@sveltejs/kit';
 import prisma from '$lib/server/prisma';
 import { computeFundBalances } from '$lib/server/balances';
 
+
 const DEMO_USER_ID = 'demo-user';
 
 /**
@@ -58,7 +59,6 @@ export const PATCH: RequestHandler = async ({ request }) => {
       throw error(400, 'cannot archive fund with non-zero balance');
     }
   }
-
   const fund = await prisma.fund.update({
     where: { id: data.id, userId: DEMO_USER_ID },
     data: {

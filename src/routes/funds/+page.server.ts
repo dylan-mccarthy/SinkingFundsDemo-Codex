@@ -3,6 +3,7 @@ import prisma from '$lib/server/prisma';
 import { computeFundBalances } from '$lib/server/balances';
 import { calculateLevel, calculateTargetProgress } from '$lib/gamification';
 
+
 const DEMO_USER_ID = 'demo-user';
 
 /**

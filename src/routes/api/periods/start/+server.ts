@@ -4,6 +4,7 @@ import { startPeriod } from '$lib/server/periods';
 
 const DEMO_USER_ID = 'demo-user';
 
+
 /**
  * Trigger the start-of-month workflow for the demo user.
  * Returns the created period and allocation breakdown.

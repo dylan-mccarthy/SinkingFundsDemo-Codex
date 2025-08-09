@@ -4,6 +4,7 @@ import { json, error } from '@sveltejs/kit';
 import prisma from '$lib/server/prisma';
 import { computeFundBalances } from '$lib/server/balances';
 
+
 const DEMO_USER_ID = 'demo-user';
 
 /**
