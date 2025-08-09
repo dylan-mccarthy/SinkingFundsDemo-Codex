@@ -12,6 +12,7 @@ npm run dev
 
 ## Current Features
 
+- Dashboard with total balance, largest funds and recent transactions
 - Create and list funds with running balances
 - View individual fund details with recent transaction history
 - Archive funds once their balance reaches zero
