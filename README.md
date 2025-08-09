@@ -24,5 +24,6 @@ npm run dev
 - Configure monthly deposit and overspend-prevention settings
 - Export all core data as a JSON backup and restore from a previous export
 - Download transactions as a CSV file for offline analysis
+- Track fund "levels" based on saved balance and celebrate when targets are reached
 
 More capabilities such as reports and advanced settings will be built in future milestones.

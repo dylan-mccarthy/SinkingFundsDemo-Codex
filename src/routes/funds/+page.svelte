@@ -1,6 +1,13 @@
 <script lang="ts">
   export let data: {
-    funds: Array<{ id: string; name: string; description: string | null; balanceCents: number }>;
+    funds: Array<{
+      id: string;
+      name: string;
+      description: string | null;
+      balanceCents: number;
+      level: number;
+      targetAchieved: boolean;
+    }>;
   };
 
   const formatAmount = (cents: number) => (cents / 100).toFixed(2);
@@ -18,6 +25,12 @@
         <div class="flex justify-between">
           <div class="font-semibold">{fund.name}</div>
           <div class="font-mono">${formatAmount(fund.balanceCents)}</div>
+        </div>
+        <div class="text-sm text-surface-500 flex items-center gap-2">
+          <span>Level {fund.level}</span>
+          {#if fund.targetAchieved}
+            <span aria-label="Target reached" title="Target reached">🎉</span>
+          {/if}
         </div>
         {#if fund.description}
           <div class="text-sm text-surface-500">{fund.description}</div>

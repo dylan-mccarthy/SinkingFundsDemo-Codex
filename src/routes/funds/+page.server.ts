@@ -1,6 +1,7 @@
 import type { Actions, PageServerLoad } from './$types';
 import prisma from '$lib/server/prisma';
 import { computeFundBalances } from '$lib/server/balances';
+import { calculateLevel, calculateTargetProgress } from '$lib/gamification';
 
 const DEMO_USER_ID = 'demo-user';
 
@@ -18,7 +19,17 @@ export const load: PageServerLoad = async () => {
   ]);
 
   return {
-    funds: funds.map((f) => ({ ...f, balanceCents: balances[f.id] ?? 0 }))
+    funds: funds.map((f) => {
+      const balance = balances[f.id] ?? 0;
+      const level = calculateLevel(balance);
+      const target = calculateTargetProgress(balance, f.targetCents);
+      return {
+        ...f,
+        balanceCents: balance,
+        level: level.level,
+        targetAchieved: target?.achieved ?? false
+      };
+    })
   };
 };
 

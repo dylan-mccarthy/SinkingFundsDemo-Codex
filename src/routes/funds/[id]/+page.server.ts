@@ -2,6 +2,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { error, redirect } from '@sveltejs/kit';
 import prisma from '$lib/server/prisma';
 import { computeFundBalances } from '$lib/server/balances';
+import { calculateLevel, calculateTargetProgress } from '$lib/gamification';
 
 const DEMO_USER_ID = 'demo-user';
 
@@ -30,9 +31,18 @@ export const load: PageServerLoad = async ({ params }) => {
     })
   ]);
 
+  const balance = balances[fundId] ?? 0;
+  const level = calculateLevel(balance);
+  const target = calculateTargetProgress(balance, fund.targetCents);
+
   return {
-    fund: { ...fund, balanceCents: balances[fundId] ?? 0 },
-    transactions
+    fund: { ...fund, balanceCents: balance },
+    transactions,
+    gamification: {
+      level: level.level,
+      levelProgressPct: level.progressPct,
+      target
+    }
   };
 };
 
