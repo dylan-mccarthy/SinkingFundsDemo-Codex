@@ -23,5 +23,6 @@ npm run dev
 - Close and reopen periods with audit log entries
 - Configure monthly deposit and overspend-prevention settings
 - Export all core data as a JSON backup and restore from a previous export
+- Download transactions as a CSV file for offline analysis
 
 More capabilities such as reports and advanced settings will be built in future milestones.

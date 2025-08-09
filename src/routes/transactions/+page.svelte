@@ -7,6 +7,10 @@
 
 <h1 class="mb-4 text-2xl font-bold">Transactions</h1>
 
+<div class="mb-4">
+  <a href="/api/transactions/export" class="btn variant-filled">Download CSV</a>
+</div>
+
 <ul class="mb-6 space-y-2">
   {#each data.transactions as tx}
     <li class="p-4 rounded-lg border border-surface-200 bg-surface-50 flex justify-between">
