@@ -21,5 +21,6 @@ npm run dev
 - Start a new period which allocates the monthly deposit according to rules
 - Close and reopen periods with audit log entries
 - Configure monthly deposit and overspend-prevention settings
+- Export all core data as a JSON backup and restore from a previous export
 
 More capabilities such as reports and advanced settings will be built in future milestones.

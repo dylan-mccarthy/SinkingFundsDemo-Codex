@@ -11,5 +11,6 @@
         <a href="/allocations" class="btn variant-filled-primary">Allocations</a>
         <a href="/periods" class="btn variant-filled-primary">Periods</a>
         <a href="/settings" class="btn variant-filled-primary">Settings</a>
+        <a href="/backup" class="btn variant-filled-primary">Backup</a>
     </div>
 </div>
