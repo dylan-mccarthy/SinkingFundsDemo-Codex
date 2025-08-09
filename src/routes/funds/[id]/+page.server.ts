@@ -1,7 +1,9 @@
-import type { PageServerLoad } from './$types';
-import { error } from '@sveltejs/kit';
+
+import type { Actions, PageServerLoad } from './$types';
+import { error, redirect } from '@sveltejs/kit';
 import prisma from '$lib/server/prisma';
 import { computeFundBalances } from '$lib/server/balances';
+import { calculateLevel, calculateTargetProgress } from '$lib/gamification';
 
 const DEMO_USER_ID = 'demo-user';
 
@@ -30,8 +32,40 @@ export const load: PageServerLoad = async ({ params }) => {
     })
   ]);
 
+  const balance = balances[fundId] ?? 0;
+  const level = calculateLevel(balance);
+  const target = calculateTargetProgress(balance, fund.targetCents);
+
   return {
-    fund: { ...fund, balanceCents: balances[fundId] ?? 0 },
-    transactions
+    fund: { ...fund, balanceCents: balance },
+    transactions,
+    gamification: {
+      level: level.level,
+      levelProgressPct: level.progressPct,
+      target
+    }
   };
+};
+
+/**
+ * Form actions available on the fund detail page.  Currently only provides
+ * an `archive` action which deactivates the fund after verifying it has a
+ * zero balance to guard against accidental loss of money.
+ */
+export const actions: Actions = {
+  archive: async ({ params }) => {
+    const fundId = params.id;
+
+    const balances = await computeFundBalances(DEMO_USER_ID);
+    if ((balances[fundId] ?? 0) !== 0) {
+      return { success: false, message: 'Fund balance must be zero to archive' };
+    }
+
+    await prisma.fund.update({
+      where: { id: fundId, userId: DEMO_USER_ID },
+      data: { active: false }
+    });
+
+    throw redirect(303, '/funds');
+  }
 };

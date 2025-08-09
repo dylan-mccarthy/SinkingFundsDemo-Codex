@@ -3,7 +3,6 @@ import prisma from '$lib/server/prisma';
 import { startPeriod, closePeriod, reopenPeriod } from '$lib/server/periods';
 
 const DEMO_USER_ID = 'demo-user';
-const DEMO_DEPOSIT_CENTS = 100_000;
 
 /**
  * Load existing periods so the UI can display history and status.
@@ -21,7 +20,9 @@ export const load: PageServerLoad = async () => {
  */
 export const actions: Actions = {
   start: async () => {
-    await startPeriod(DEMO_USER_ID, DEMO_DEPOSIT_CENTS);
+
+    await startPeriod(DEMO_USER_ID);
+
     return { success: true };
   },
   close: async ({ request }) => {

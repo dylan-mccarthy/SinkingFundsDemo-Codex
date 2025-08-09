@@ -1,13 +1,17 @@
 import prisma from '$lib/server/prisma';
 
 /**
- * Start a new accounting period for a user and distribute the monthly deposit.
+ * Start a new accounting period for a user and distribute the monthly deposit
+ * defined in their settings.
  *
  * This demo implementation handles fixed and percentage allocation rules in a
  * simplistic way and does not yet deal with rollover balances or reruns. The
- * deposit amount is provided by the caller in cents.
- */
-export async function startPeriod(userId: string, depositCents: number) {
+ * deposit amount is looked up from the `Setting` table and assumed to be an
+ * integer number of cents.
+*/
+export async function startPeriod(userId: string) {
+  const settings = await prisma.setting.findUnique({ where: { userId } });
+  const depositCents = settings?.monthlyDepositCents ?? 0;
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth() + 1; // JS months are zero-based

@@ -1,6 +1,8 @@
 import type { RequestHandler } from './$types';
 import { json, error } from '@sveltejs/kit';
 import prisma from '$lib/server/prisma';
+import { computeFundBalances } from '$lib/server/balances';
+
 
 const DEMO_USER_ID = 'demo-user';
 
@@ -48,6 +50,15 @@ export const PATCH: RequestHandler = async ({ request }) => {
     throw error(400, 'id is required');
   }
 
+  // When archiving a fund we must ensure its balance is zero to prevent
+  // funds from disappearing with money still allocated to them.  The
+  // balance is derived from transaction history via `computeFundBalances`.
+  if (data.active === false) {
+    const balances = await computeFundBalances(DEMO_USER_ID);
+    if ((balances[data.id] ?? 0) !== 0) {
+      throw error(400, 'cannot archive fund with non-zero balance');
+    }
+  }
   const fund = await prisma.fund.update({
     where: { id: data.id, userId: DEMO_USER_ID },
     data: {

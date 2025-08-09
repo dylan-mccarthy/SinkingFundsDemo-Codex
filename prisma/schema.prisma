@@ -36,6 +36,7 @@ model User {
   allocationRules AllocationRule[]
   allocationRuns AllocationRun[]
   auditLogs      AuditLog[]
+  setting        Setting?
 }
 
 /// Envelope used to segregate money for a specific purpose.
@@ -146,6 +147,17 @@ model AuditLog {
   action    String
   context   String?
   createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+/// Per-user configuration flags and values that influence application behavior.
+model Setting {
+  userId             String @id
+  /// Amount of the monthly deposit in integer cents used by the allocation engine.
+  monthlyDepositCents Int    @default(0)
+  /// When true, expense transactions may not push a fund below zero balance.
+  overspendPrevention Boolean @default(false)
 
   user User @relation(fields: [userId], references: [id])
 }
